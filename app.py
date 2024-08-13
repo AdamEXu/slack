@@ -13,6 +13,7 @@ def small_bot_event():
   if json['type'] == 'url_verification':
     return jsonify({'challenge': json['challenge']}), 200
   print(json)
+  return 200
 
 
 if __name__ == '__main__':
