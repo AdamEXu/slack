@@ -26,6 +26,7 @@ def small_bot_event():
   if event['user'] == BOT_SLACK_ID:
     return jsonify({'status': 'ok'}), 200
   type = event['type']
+  print(type)
   if type == 'reaction_added':
     slack_client.reactions_add(channel=event['item']['channel'], name=event['reaction'], timestamp=event['item']['ts'])
   elif type == 'message.channels':
