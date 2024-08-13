@@ -39,7 +39,8 @@ def small_bot_event():
     for message in messages['messages']:
       user = slack_client.users_info(user=message['user'])
       messages_improved.append({'user': user['user']['real_name'], 'content': message['text']})
-    messages_improved = messages_improved.reverse()
+    # messages_improved = messages_improved.reverse()
+    messages_improved = reversed(messages_improved)
     print(messages_improved)
     print("generating response")
     response = generate_response(messages_improved)
