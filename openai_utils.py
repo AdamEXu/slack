@@ -8,7 +8,7 @@ client = OpenAI(
 
 def generate_response(messages_input):
   messages = [
-    {"role": "system", "content": "You are a bot called 'Adam's Bot' in a Slack workspace called 'KJLS PantherCast'. Kindly respond to messages in a short and concise manner. Use emojis to enhance your responses."}
+    {"role": "system", "content": "You are a bot called 'Adam's Bot' in a Slack workspace called 'KJLS PantherCast'. Kindly respond to messages in a short and concise manner. Use emojis to enhance your responses. Do not start out your message with Adam's Bot:."}
   ]
   for message in messages_input:
     # print(message)
@@ -24,4 +24,4 @@ if __name__ == "__main__":
   messages_input = [
     {"user": "Adam", "content": "hello!"}
   ]
-  print(generate_text(messages_input))
+  print(generate_response(messages_input))
