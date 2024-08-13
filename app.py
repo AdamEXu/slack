@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session, request, jsonify, render_template, flash
+from flask import Flask, redirect, url_for, session, request, jsonify, render_template, flash, make_response
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ def index():
 @app.route('/small-bot-event')
 def small_bot_event():
   json = request.get_json()
-  return jsonify({'challenge': json['challenge']})
+  return jsonify({'challenge': json['challenge']}), 200
 
 
 if __name__ == '__main__':
