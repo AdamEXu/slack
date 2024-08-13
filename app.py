@@ -1,4 +1,13 @@
 from flask import Flask, redirect, url_for, session, request, jsonify, render_template, flash, make_response
+from slack_sdk import WebClient
+import os
+
+SLACK_API_TOKEN = os.environ.get("SLACK_API_TOKEN")
+if SLACK_API_TOKEN is None:
+    print("Please set the environment variable SLACK_API_TOKEN")
+    exit(1)
+
+slack_client = WebClient(token=SLACK_API_TOKEN)
 
 app = Flask(__name__)
 
@@ -10,10 +19,11 @@ def index():
 @app.route('/small-bot-event', methods=['POST'])
 def small_bot_event():
   json = request.get_json()
-  if json['type'] == 'url_verification':
-    return jsonify({'challenge': json['challenge']}), 200
-  print(json)
-  return 200
+  event = json['event']
+  type = event['type']
+  if type == 'reaction_added':
+    slack_client.reactions_add(channel=event['item']['channel'], name=event['reaction'], timestamp=event['item']['ts'])
+  return jsonify({'status': 'ok'}), 200
 
 
 if __name__ == '__main__':
