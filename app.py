@@ -9,6 +9,8 @@ if SLACK_API_TOKEN is None:
 
 slack_client = WebClient(token=SLACK_API_TOKEN)
 
+BOT_SLACK_ID = "U07GCL7QHT9"
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,6 +22,8 @@ def index():
 def small_bot_event():
   json = request.get_json()
   event = json['event']
+  if event['user'] == BOT_SLACK_ID:
+    return jsonify({'status': 'ok'}), 200
   type = event['type']
   if type == 'reaction_added':
     slack_client.reactions_add(channel=event['item']['channel'], name=event['reaction'], timestamp=event['item']['ts'])
