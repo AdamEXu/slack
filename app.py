@@ -36,8 +36,8 @@ def small_bot_event():
     # example: [{"user_name": "Adam", "text": "Hello"}]
     for message in messages['messages']:
       user = slack_client.users_info(user=message['user'])
-      messages_improved.append({'user_name': user['user']['real_name'], 'text': message['text']})
-    print(messages_improved)
+      messages_improved.append({'user': user['user']['real_name'], 'text': message['text']})
+    # print(messages_improved)
     print("generating response")
     response = generate_response(messages_improved)
     if response != 'NO_RESPONSE_0':
