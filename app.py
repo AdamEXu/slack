@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, jsonify, render_template, flash, make_response
 from slack_sdk import WebClient
+from openai_utils import generate_response
 import os
 
 SLACK_API_TOKEN = os.environ.get("SLACK_API_TOKEN")
@@ -27,6 +28,17 @@ def small_bot_event():
   type = event['type']
   if type == 'reaction_added':
     slack_client.reactions_add(channel=event['item']['channel'], name=event['reaction'], timestamp=event['item']['ts'])
+  elif type == 'message.channels':
+    # get last 10 messages
+    messages = slack_client.conversations_history(channel=event['channel'], limit=10)
+    messages_improved = []
+    # example: [{"user_name": "Adam", "text": "Hello"}]
+    for message in messages['messages']:
+      user = slack_client.users_info(user=message['user'])
+      messages_improved.append({'user_name': user['user']['real_name'], 'text': message['text']})
+    response = generate_response(messages_improved)
+    if response != 'NO_RESPONSE_0':
+      slack_client.chat_postMessage(channel=event['channel'], text=response)
   return jsonify({'status': 'ok'}), 200
 
 
