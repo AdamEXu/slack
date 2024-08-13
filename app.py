@@ -36,8 +36,10 @@ def small_bot_event():
     for message in messages['messages']:
       user = slack_client.users_info(user=message['user'])
       messages_improved.append({'user_name': user['user']['real_name'], 'text': message['text']})
+    print("generating response")
     response = generate_response(messages_improved)
     if response != 'NO_RESPONSE_0':
+      print(response)
       slack_client.chat_postMessage(channel=event['channel'], text=response)
   return jsonify({'status': 'ok'}), 200
 
