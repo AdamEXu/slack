@@ -10,7 +10,9 @@ def index():
 @app.route('/small-bot-event', methods=['POST'])
 def small_bot_event():
   json = request.get_json()
-  return jsonify({'challenge': json['challenge']}), 200
+  if json['type'] == 'url_verification':
+    return jsonify({'challenge': json['challenge']}), 200
+  print(json)
 
 
 if __name__ == '__main__':
