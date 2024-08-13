@@ -7,7 +7,7 @@ def index():
   return('scram!')
 
 # slack bot challenge
-@app.route('/small-bot-event')
+@app.route('/small-bot-event', methods=['POST'])
 def small_bot_event():
   json = request.get_json()
   return jsonify({'challenge': json['challenge']}), 200
