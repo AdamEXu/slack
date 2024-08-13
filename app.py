@@ -29,7 +29,7 @@ def small_bot_event():
   print(type)
   if type == 'reaction_added':
     slack_client.reactions_add(channel=event['item']['channel'], name=event['reaction'], timestamp=event['item']['ts'])
-  elif type == 'message.channels':
+  elif type == 'app_mention':
     # get last 10 messages
     messages = slack_client.conversations_history(channel=event['channel'], limit=10)
     messages_improved = []
